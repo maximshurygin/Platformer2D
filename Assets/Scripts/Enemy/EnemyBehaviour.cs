@@ -18,8 +18,9 @@ namespace Enemy
         [SerializeField] private Transform _shootPoint;
         [SerializeField] private ObjectPool.ObjectPool _objectPool;
         [SerializeField] private float _attackInterval = 2f;
-        [SerializeField] private float _waitToHideTime = 3f;
+        // [SerializeField] private float _waitToHideTime = 3f;
         // [SerializeField] private float _disanceToHide = 20f;
+        [SerializeField] private float _deactivationRange = 10f;
         private Transform _player;
         private Transform _bulletContainer;
         private WaitForSeconds _attackTimer;
@@ -50,7 +51,7 @@ namespace Enemy
 
         private void Patrol()
         {
-            if (!_isPatrolling) return;
+            if (!_isPatrolling || !CheckDistanceToPlayer(_deactivationRange)) return;
             CheckGround();
             _rb.velocity = new Vector2(_direction * _speed, _rb.velocity.y);
             _spriteRenderer.flipX = _direction > 0;
@@ -71,7 +72,7 @@ namespace Enemy
         {
             while (true)
             {
-                if (!CheckAttackRange())
+                if (!CheckDistanceToPlayer(_attackRange))
                 {
                     _isPatrolling = true;
                     yield return null;
@@ -92,11 +93,22 @@ namespace Enemy
             }
         }
 
-        private bool CheckAttackRange()
+        // private bool CheckAttackRange()
+        // {
+        //     if (_player == null) return false;
+        //     float distance = (_player.position - transform.position).magnitude;
+        //     if (distance <= _attackRange)
+        //     {
+        //         return true;
+        //     }
+        //     return false;
+        // }
+        
+        private bool CheckDistanceToPlayer(float range)
         {
             if (_player == null) return false;
             float distance = (_player.position - transform.position).magnitude;
-            if (distance <= _attackRange)
+            if (distance <= range)
             {
                 return true;
             }
