@@ -19,6 +19,8 @@ namespace Player
         private Coroutine _hurtCoroutine;
         private Coroutine _deathCoroutine;
         public event Action OnDeath;
+        public event Action OnHealthChanged;
+        
 
 
         private void Start()
@@ -27,10 +29,17 @@ namespace Player
             _waitForRespawnDuration = new WaitForSeconds(_respawnDuration);
         }
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            OnHealthChanged?.Invoke();
+        }
+
         public override void TakeDamage(float damage)
         {
             _impulseSource.GenerateImpulse();
             base.TakeDamage(damage);
+            OnHealthChanged?.Invoke();
             if (_currentHealth > 0)
             {
                 _animator.SetTrigger("Hurt");

@@ -15,24 +15,32 @@ namespace Enemy
         [SerializeField] private Animator _animator;
         [SerializeField] private Rigidbody2D _rb;
         [SerializeField] private float _attackRange = 4f;
-        [SerializeField] private Transform _player;
         [SerializeField] private Transform _shootPoint;
         [SerializeField] private ObjectPool.ObjectPool _objectPool;
         [SerializeField] private float _attackInterval = 2f;
-        [SerializeField] private Transform _bulletContainer;
+        [SerializeField] private float _waitToHideTime = 3f;
+        // [SerializeField] private float _disanceToHide = 20f;
+        private Transform _player;
+        private Transform _bulletContainer;
         private WaitForSeconds _attackTimer;
         private float _direction = 1;
         private bool _isPatrolling = true;
+        // private WaitForSeconds _waitToHideTimer;
 
         private void Start()
         {
             _attackTimer = new WaitForSeconds(_attackInterval);
+            // _waitToHideTimer = new WaitForSeconds(_waitToHideTime);
+            
         }
 
         private void OnEnable()
         {
             StartCoroutine(Attack());
             _isPatrolling = true;
+            
+            // StartCoroutine(CheckDistanceToHide());
+
         }
 
         private void FixedUpdate()
@@ -86,6 +94,7 @@ namespace Enemy
 
         private bool CheckAttackRange()
         {
+            if (_player == null) return false;
             float distance = (_player.position - transform.position).magnitude;
             if (distance <= _attackRange)
             {
@@ -94,14 +103,25 @@ namespace Enemy
             return false;
         }
 
-        // private IEnumerator CheckTimeToHide()
+        // private IEnumerator CheckDistanceToHide()
         // {
-        //     float distance = (_player.position - transform.position).magnitude;
-        //     if (distance > 25f)
+        //     while (true)
         //     {
-        //         gameObject.SetActive(false);
+        //         Debug.Log("CheckDistanceToHide");
+        //         if (_player == null) yield return null;
+        //         float distance = Vector3.Distance(transform.position, _player.position);
+        //         if (distance > _disanceToHide)
+        //         {
+        //             gameObject.SetActive(false);
+        //         }
+        //         yield return _waitToHideTimer;
         //     }
-        //     yield return new WaitForSeconds(2f);
         // }
+
+        public void SetDetails(Transform player, Transform bulletContainer)
+        {
+            _player = player;
+            _bulletContainer = bulletContainer;
+        }
     }
 }

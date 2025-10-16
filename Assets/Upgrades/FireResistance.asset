@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c90f5a6790e843bb9418ee6a9f1fbff8, type: 3}
+  m_Name: FireResistance
+  m_EditorClassIdentifier: 
+  _upgradeType: 0
+  _cardName: Fire Resistance
+  _cardIcon: {fileID: 137996841, guid: a10659d98c86042819586be63a8fd6c3, type: 3}
+  _cardDescription: Fully protects from fire
+  _cardCost: 1
+  _id: 0

@@ -1,3 +1,4 @@
+using System;
 using Player;
 using UnityEngine;
 using Zenject;
@@ -10,7 +11,7 @@ namespace Loot
         [SerializeField] protected AudioSource _audioSource;
         
         protected PlayerData _playerData;
-
+        
         [Inject]
         private void Construct(PlayerData playerData)
         {

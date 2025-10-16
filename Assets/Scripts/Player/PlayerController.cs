@@ -1,6 +1,11 @@
+using System;
+using GameManagers;
+using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Weapon;
+using Zenject;
+using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,25 +14,34 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private Collider2D _weaponCollider;
     [SerializeField] private float _speed = 6f;
-    [SerializeField] private float _jumpForce = 10f;
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private float _groundCheckRadius = 0.15f;
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private PlayerWeapon _playerWeapon;
-
-    //
+    [SerializeField] private float _jumpForce = 10f;
     [SerializeField] private float _maxJumpForce = 20f;
-    [SerializeField] private float _jumpChargeTime = 0.5f;
+    [SerializeField] private float _jumpChargeTime = 0.4f;
     private bool _isHolding;
     private float _jumpHoldTime;
-    //
-    
     private Vector2 _movement;
     private bool _isGrounded;
     private string[] attacks = { "Attack1", "Attack2" };
+    private PlayerData _playerData;
+    private HintManager _hintManager;
+    private bool _isUsingComputer;
+    private bool _wasGrounded;
+
+    public event Action OnInteract;
     
     public bool IsAttacking { get; set; }
     public bool IsHurt { get; set; }
+
+    [Inject]
+    public void Construct(PlayerData playerData, HintManager hintManager)
+    {
+        _playerData = playerData;
+        _hintManager = hintManager;
+    }
     
     
     private void FixedUpdate()
@@ -52,9 +66,20 @@ public class PlayerController : MonoBehaviour
 
     private void CheckGroundedState()
     {
+        _wasGrounded = _isGrounded;
+
         _isGrounded = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
         _animator.SetBool("IsGrounded", _isGrounded);
         _animator.SetFloat("VSpeed", _rb.velocity.y);
+        
+        if (_isGrounded && !_wasGrounded)
+        {
+            _animator.ResetTrigger("Jump");
+            _jumpHoldTime = 0f;
+            _isHolding = false;
+        }
+        
+        // _wasGrounded = _isGrounded;
     }
 
     public void Move(InputAction.CallbackContext ctx)
@@ -73,15 +98,7 @@ public class PlayerController : MonoBehaviour
             _weaponCollider.offset = new Vector2(Mathf.Abs(_weaponCollider.offset.x), _weaponCollider.offset.y);
         }
     }
-
-    // public void Jump(InputAction.CallbackContext ctx)
-    // {
-    //     if (ctx.performed && _isGrounded && !IsHurt)
-    //     {
-    //         _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-    //         _animator.SetTrigger("Jump");
-    //     }
-    // }
+    
 
     private void HandleJumpCharge()
     {
@@ -95,10 +112,10 @@ public class PlayerController : MonoBehaviour
     {
         if (ctx.started && _isGrounded && !IsHurt)
         {
-            _isHolding = true;
-            _jumpHoldTime = 0f;
             _animator.SetTrigger("Jump");
             _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+            _isHolding = true;
+            _jumpHoldTime = 0f;
         }
         else if (ctx.canceled && _isHolding && !_isGrounded && _jumpHoldTime >= _jumpChargeTime)
         {
@@ -119,6 +136,15 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetTrigger(attacks[Random.Range(0, attacks.Length)]);
             IsAttacking = true;
+        }
+    }
+
+    public void Interact(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed && _playerData.IsComputerInRange)
+        {
+            _hintManager.HideHint();
+            OnInteract?.Invoke();
         }
     }
 

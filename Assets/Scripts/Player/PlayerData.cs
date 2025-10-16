@@ -1,3 +1,5 @@
+using System;
+using Interactables;
 using UnityEngine;
 
 namespace Player
@@ -6,26 +8,31 @@ namespace Player
     {
         public int Coins { get; private set; }
         public int Keys { get; private set; }
+        public bool IsComputerInRange { get; private set; }
+        
+        public Computer NearComputer { get; private set; }
 
         public Transform LastCheckpoint { get; private set; }
+        
+        public event Action<int> OnCoinsChanged;
+        public event Action<int> OnKeysChanged;
 
         public void AddCoin()
         {
             Coins++;
-            Debug.Log($"Coins: {Coins}");
+            OnCoinsChanged?.Invoke(Coins);
         }
 
         public void AddKey()
         {
             Keys++;
-            Debug.Log($"Keys: {Keys}");
+            OnKeysChanged?.Invoke(Keys);
         }
 
         public void UseCoins(int amount)
         {
             Coins -= amount;
-            Debug.Log($"Coins: {Coins}");
-
+            OnCoinsChanged?.Invoke(Coins);
         }
 
         public void UseKey()
@@ -37,6 +44,16 @@ namespace Player
         public void SetLastCheckpoint(Transform checkpoint)
         {
             LastCheckpoint = checkpoint;
+        }
+
+        public void SetIsComputerInRange(bool isNearPC)
+        {
+            IsComputerInRange = isNearPC;
+        }
+
+        public void SetNearComputer(Computer nearComputer)
+        {
+            NearComputer = nearComputer;
         }
     }
 }

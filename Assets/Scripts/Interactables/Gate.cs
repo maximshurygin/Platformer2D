@@ -13,7 +13,7 @@ namespace Interactables
         private PlayerData _playerData;
         private HintManager _hintManager;
         private bool _isOpen;
-        private string _hintText = "I need a key";
+        private string _hintText = "You need a key";
 
         [Inject]
         private void Construct(PlayerData playerData, HintManager hintManager)
@@ -47,7 +47,10 @@ namespace Interactables
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            _hintManager.HideHint();
+            if (other.CompareTag("Player"))
+            {
+                _hintManager.HideHint();
+            }
         }
     }
 }

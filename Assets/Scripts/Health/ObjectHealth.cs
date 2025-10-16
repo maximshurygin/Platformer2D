@@ -14,12 +14,15 @@ namespace Health
         private WaitForSeconds _dieTimer;
         private bool _isDead;
 
+        public float CurrentHealth => _currentHealth;
+        public float MaxHealth => _maxHealth;
+
         private void Awake()
         {
             _dieTimer = new WaitForSeconds(_dieInterval);
         }
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             _currentHealth = _maxHealth;
             _isDead = false;
