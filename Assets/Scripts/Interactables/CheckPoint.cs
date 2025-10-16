@@ -1,3 +1,4 @@
+using GameManagers;
 using Player;
 using UnityEngine;
 using Zenject;
@@ -9,12 +10,14 @@ namespace Interactables
         [SerializeField] private Animator _animator;
         [SerializeField] private AudioSource _audioSource;
         private PlayerData _playerData;
+        private HintManager _hintManager;
         private bool _isActivated;
 
         [Inject]
-        private void Construct(PlayerData playerData)
+        private void Construct(PlayerData playerData, HintManager hintManager)
         {
             _playerData = playerData;
+            _hintManager = hintManager;
         }
         
         private void OnTriggerEnter2D(Collider2D other)
@@ -26,7 +29,7 @@ namespace Interactables
                 _animator.SetBool("Activated", true);
                 _isActivated = true;
                 _playerData.SetLastCheckpoint(transform);
-                Debug.Log("Checkpoint activated");
+                _hintManager.ShowAndHideHint("CheckPoint activated");
             }
         }
     }

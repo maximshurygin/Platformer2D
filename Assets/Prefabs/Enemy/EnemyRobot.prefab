@@ -108,7 +108,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.58, y: 1.1}
+  m_Size: {x: 0.75, y: 1.1}
   m_EdgeRadius: 0
 --- !u!114 &2602145956991333908
 MonoBehaviour:
@@ -132,12 +132,10 @@ MonoBehaviour:
   _animator: {fileID: 6636924580731391638}
   _rb: {fileID: 980532050140232885}
   _attackRange: 5
-  _player: {fileID: 0}
   _shootPoint: {fileID: 4292912643037310359}
   _objectPool: {fileID: 3415150687997776346}
   _attackInterval: 2
-  _bulletContainer: {fileID: 0}
-  _waitToHideTime: 3
+  _deactivationRange: 10
 --- !u!114 &37280302948122197
 MonoBehaviour:
   m_ObjectHideFlags: 0
