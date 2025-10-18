@@ -6,6 +6,7 @@ namespace Player
 {
     public class PlayerData
     {
+        public int Deaths { get; private set; }
         public int Coins { get; private set; }
         public int Keys { get; private set; }
         public bool IsComputerInRange { get; private set; }
@@ -16,6 +17,7 @@ namespace Player
         
         public event Action<int> OnCoinsChanged;
         public event Action<int> OnKeysChanged;
+        public event Action OnDeathsChanged;
 
         public void AddCoin()
         {
@@ -38,7 +40,12 @@ namespace Player
         public void UseKey()
         {
             Keys -= 1;
-            Debug.Log($"Keys: {Keys}");
+        }
+
+        public void IncreaseDeaths()
+        {
+            Deaths++;
+            OnDeathsChanged?.Invoke();
         }
 
         public void SetLastCheckpoint(Transform checkpoint)

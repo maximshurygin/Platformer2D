@@ -4,6 +4,7 @@ using Cinemachine;
 using Health;
 using Unity.VisualScripting;
 using UnityEngine;
+using Zenject;
 
 namespace Player
 {
@@ -16,9 +17,15 @@ namespace Player
         private WaitForSeconds _waitForHurtDuration;
         private Coroutine _hurtCoroutine;
         private Coroutine _deathCoroutine;
+        private PlayerData _playerData;
         public event Action OnDeath;
         public event Action OnHealthChanged;
-        
+
+        [Inject]
+        public void Construct(PlayerData playerData)
+        {
+            _playerData = playerData;
+        }
 
 
         private void Start()
@@ -51,6 +58,7 @@ namespace Player
             {
                 _playerController.enabled = false;
                 _rigidbody.velocity = Vector2.zero;
+                _playerData.IncreaseDeaths();
             	OnDeath?.Invoke();
             }
         }
