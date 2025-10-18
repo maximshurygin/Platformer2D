@@ -61,6 +61,7 @@ namespace Enemy
         {
             Vector2 rayDirection = new Vector2(_direction, -1).normalized;
             RaycastHit2D hit = Physics2D.Raycast(_groundCheck.position, rayDirection, _groundCheckDistance, _groundLayer);
+            Debug.DrawRay(_groundCheck.position, rayDirection * _groundCheckDistance, Color.green);
 
             if (hit.collider ==null)
             {
@@ -92,17 +93,6 @@ namespace Enemy
                 yield return _attackTimer;
             }
         }
-
-        // private bool CheckAttackRange()
-        // {
-        //     if (_player == null) return false;
-        //     float distance = (_player.position - transform.position).magnitude;
-        //     if (distance <= _attackRange)
-        //     {
-        //         return true;
-        //     }
-        //     return false;
-        // }
         
         private bool CheckDistanceToPlayer(float range)
         {
@@ -114,22 +104,7 @@ namespace Enemy
             }
             return false;
         }
-
-        // private IEnumerator CheckDistanceToHide()
-        // {
-        //     while (true)
-        //     {
-        //         Debug.Log("CheckDistanceToHide");
-        //         if (_player == null) yield return null;
-        //         float distance = Vector3.Distance(transform.position, _player.position);
-        //         if (distance > _disanceToHide)
-        //         {
-        //             gameObject.SetActive(false);
-        //         }
-        //         yield return _waitToHideTimer;
-        //     }
-        // }
-
+        
         public void SetDetails(Transform player, Transform bulletContainer)
         {
             _player = player;

@@ -13,9 +13,7 @@ namespace Player
         [SerializeField] private CinemachineImpulseSource _impulseSource;
         [SerializeField] private Rigidbody2D _rigidbody;
         [SerializeField] private float _hurtDuration = 0.3f;
-        [SerializeField] private float _respawnDuration = 2f;
         private WaitForSeconds _waitForHurtDuration;
-        private WaitForSeconds _waitForRespawnDuration;
         private Coroutine _hurtCoroutine;
         private Coroutine _deathCoroutine;
         public event Action OnDeath;
@@ -26,7 +24,6 @@ namespace Player
         private void Start()
         {
             _waitForHurtDuration = new WaitForSeconds(_hurtDuration);
-            _waitForRespawnDuration = new WaitForSeconds(_respawnDuration);
         }
 
         protected override void OnEnable()
@@ -61,6 +58,7 @@ namespace Player
         public void TakeHeal(float amount)
         { 
             _currentHealth = Mathf.Min(_currentHealth + amount, _maxHealth);
+            OnHealthChanged?.Invoke();
         }
 
         private IEnumerator HurtEnd() 

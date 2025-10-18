@@ -1,3 +1,4 @@
+using System.Collections;
 using GameManagers;
 using Player;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace Interactables
         [SerializeField] private Collider2D _collider;
         [SerializeField] private Animator _animatorUpper;
         [SerializeField] private Animator _animatorLower;
+        [SerializeField] private float _delay = 0.5f;
         private PlayerData _playerData;
         private HintManager _hintManager;
         private bool _isOpen;
@@ -33,10 +35,8 @@ namespace Interactables
                     _playerData.UseKey();
                     _animatorUpper.SetBool("Opened", true);
                     _animatorLower.SetBool("Opened", true);
-                    _collider.enabled = false;
+                    StartCoroutine(DisableCollider());
                     _isOpen = true;
-                    Debug.Log("Gate opened");
-                    Debug.Log($"_playerData.Keys: {_playerData.Keys}");
                 }
                 else
                 {
@@ -51,6 +51,12 @@ namespace Interactables
             {
                 _hintManager.HideHint();
             }
+        }
+
+        private IEnumerator DisableCollider()
+        {
+            yield return new WaitForSeconds(_delay);
+            _collider.enabled = false;
         }
     }
 }

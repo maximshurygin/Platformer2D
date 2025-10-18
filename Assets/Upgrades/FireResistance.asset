@@ -15,6 +15,6 @@ MonoBehaviour:
   _upgradeType: 0
   _cardName: Fire Resistance
   _cardIcon: {fileID: 137996841, guid: a10659d98c86042819586be63a8fd6c3, type: 3}
-  _cardDescription: Fully protects from fire
-  _cardCost: 1
+  _cardDescription: Reduces damage from fire
+  _cardCost: 2
   _id: 0

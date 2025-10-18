@@ -1,5 +1,6 @@
 using GameManagers;
 using Player;
+using Scenes;
 using Spawners;
 using UnityEngine;
 using Upgrades;
@@ -15,6 +16,7 @@ namespace DI
         [SerializeField] private KeySpawner _keySpawner;
         [SerializeField] private PlayerUpgrade _playerUpgrade;
         [SerializeField] private UpgradeWindow _upgradeWindow;
+        [SerializeField] private PauseManager _pauseManager;
         
         public override void InstallBindings()
         {
@@ -25,6 +27,7 @@ namespace DI
             Container.Bind<KeySpawner>().FromInstance(_keySpawner).AsSingle().NonLazy();
             Container.Bind<PlayerUpgrade>().FromInstance(_playerUpgrade).AsSingle().NonLazy();
             Container.Bind<UpgradeWindow>().FromInstance(_upgradeWindow).AsSingle().NonLazy();
+            Container.Bind<PauseManager>().FromInstance(_pauseManager).AsSingle();
 
         }
     }

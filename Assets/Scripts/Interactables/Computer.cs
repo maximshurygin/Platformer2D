@@ -23,7 +23,9 @@ namespace Interactables
     {
         if (other.CompareTag("Player"))
         {
-            _hintManager.ShowHint(_hintText); _playerData.SetIsComputerInRange(true); _playerData.SetNearComputer(this); 
+            _hintManager.ShowHint(_hintText); 
+            _playerData.SetIsComputerInRange(true); 
+            _playerData.SetNearComputer(this); 
             
         }
     }

@@ -27,7 +27,6 @@ namespace Spawners
 
         public void SpawnEnemy(SpawnPoint spawnPoint)
         {
-            Debug.Log("Spawning enemy");
             GameObject enemyObj = _objectPool.Get();
             enemyObj.transform.position = spawnPoint.transform.position;
             enemyObj.transform.SetParent(transform);

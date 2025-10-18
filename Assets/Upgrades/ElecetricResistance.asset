@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _upgradeType: 1
   _cardName: Electric Resistance
-  _cardIcon: {fileID: 0}
-  _cardDescription: Fully protects from electricity
-  _cardCost: 3
+  _cardIcon: {fileID: 842069493, guid: 9e67f8b3a08f64ca6ab97e1d5b96ef00, type: 3}
+  _cardDescription: Reduces damage from electricity
+  _cardCost: 2
   _id: 1

@@ -32,6 +32,9 @@ namespace Upgrades
             _playerData.NearComputer.OnOutOfRange += CloseUpgradeWindow; 
             _upgradeButton.onClick.AddListener(Upgrade); 
             _upgradeCard = _playerData.NearComputer.AvailableUpgradeCard;
+            
+            Debug.Log(_upgradeCard.CardName);
+            
             if (_upgradeCard != null)
             {
                 _upgradeCardWindow.SetActive(true); 

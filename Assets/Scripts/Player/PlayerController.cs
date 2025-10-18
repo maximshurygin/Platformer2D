@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     private string[] attacks = { "Attack1", "Attack2" };
     private PlayerData _playerData;
     private HintManager _hintManager;
+    private PauseManager _pauseManager;
     private bool _isUsingComputer;
     private bool _wasGrounded;
 
@@ -37,10 +38,11 @@ public class PlayerController : MonoBehaviour
     public bool IsHurt { get; set; }
 
     [Inject]
-    public void Construct(PlayerData playerData, HintManager hintManager)
+    public void Construct(PlayerData playerData, HintManager hintManager,  PauseManager pauseManager)
     {
         _playerData = playerData;
         _hintManager = hintManager;
+        _pauseManager = pauseManager;
     }
     
     
@@ -78,8 +80,6 @@ public class PlayerController : MonoBehaviour
             _jumpHoldTime = 0f;
             _isHolding = false;
         }
-        
-        // _wasGrounded = _isGrounded;
     }
 
     public void Move(InputAction.CallbackContext ctx)
@@ -145,6 +145,14 @@ public class PlayerController : MonoBehaviour
         {
             _hintManager.HideHint();
             OnInteract?.Invoke();
+        }
+    }
+
+    public void Pause(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            _pauseManager.TogglePause();
         }
     }
 

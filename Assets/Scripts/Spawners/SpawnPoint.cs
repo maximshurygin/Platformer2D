@@ -31,8 +31,6 @@ namespace Spawners
         {
             while (!_hasSpawned)
             {
-                Debug.Log("Checking distance to player");
-
                 _distance = Vector3.Distance(_player.position, transform.position);
                 if (_distance <= _requiredDistance && OnPlayerDetected != null)
                 {
