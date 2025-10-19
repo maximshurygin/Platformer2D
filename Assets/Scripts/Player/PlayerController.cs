@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _jumpForce = 10f;
     [SerializeField] private float _maxJumpForce = 20f;
     [SerializeField] private float _jumpChargeTime = 0.4f;
+    [SerializeField] private float _coyoteTime = 0.2f;
+    [SerializeField] private float _bufferTime = 0.2f;
+    
     private bool _isHolding;
     private float _jumpHoldTime;
     private Vector2 _movement;
@@ -31,6 +34,10 @@ public class PlayerController : MonoBehaviour
     private PauseManager _pauseManager;
     private bool _isUsingComputer;
     private bool _wasGrounded;
+
+    private float _coyoteTimer;
+    private float _jumpBufferTimer;
+    private bool _jumpBuffered;
 
     public event Action OnInteract;
     
@@ -107,6 +114,7 @@ public class PlayerController : MonoBehaviour
             _jumpHoldTime += Time.deltaTime;
         }
     }
+    
 
     public void Jump(InputAction.CallbackContext ctx)
     {

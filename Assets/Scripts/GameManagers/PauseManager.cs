@@ -7,6 +7,12 @@ namespace GameManagers
         [SerializeField] private GameObject _pauseMenu;
         private bool _isPaused;
 
+        private void OnEnable()
+        {
+            Time.timeScale = 1f;
+            _isPaused = false;
+        }
+
         public void TogglePause()
         {
             if (_isPaused)

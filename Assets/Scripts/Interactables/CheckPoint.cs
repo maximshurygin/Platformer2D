@@ -26,6 +26,7 @@ namespace Interactables
             
             if (other.CompareTag("Player"))
             {
+                _audioSource.Play();
                 _animator.SetBool("Activated", true);
                 _isActivated = true;
                 _playerData.SetLastCheckpoint(transform);

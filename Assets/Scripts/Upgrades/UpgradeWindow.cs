@@ -9,6 +9,7 @@ namespace Upgrades
 {
     public class UpgradeWindow : MonoBehaviour
     {
+        [SerializeField] private AudioSource _audioSource;
         [SerializeField] private GameObject _upgradeCardWindow; 
         [SerializeField] private TextMeshProUGUI _titleText; 
         [SerializeField] private TextMeshProUGUI _cardName; 
@@ -32,8 +33,7 @@ namespace Upgrades
             _playerData.NearComputer.OnOutOfRange += CloseUpgradeWindow; 
             _upgradeButton.onClick.AddListener(Upgrade); 
             _upgradeCard = _playerData.NearComputer.AvailableUpgradeCard;
-            
-            Debug.Log(_upgradeCard.CardName);
+            _audioSource.Play();
             
             if (_upgradeCard != null)
             {
@@ -64,7 +64,6 @@ namespace Upgrades
             {
                 _playerData.UseCoins(_upgradeCard.CardCost);
                 _playerUpgrade.AddUpgrade(_upgradeCard); 
-                _upgradeButton.interactable = false; 
                 _playerData.NearComputer.RemovePurchasedUpgrade(); 
                 _hintManager.ShowAndHideHint($"You purchased upgrade: {_playerUpgrade.PurchasedUpgradeCards[^1].CardName}!"); 
                 gameObject.SetActive(false);

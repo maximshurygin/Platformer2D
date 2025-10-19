@@ -7,6 +7,7 @@ namespace Enemy
 {
     public class EnemyBehaviour : MonoBehaviour
     {
+        [SerializeField] private AudioSource _audioSource;
         [SerializeField] private float _speed = 2f;
         [SerializeField] private Transform _groundCheck;
         [SerializeField] private LayerMask _groundLayer;
@@ -18,30 +19,23 @@ namespace Enemy
         [SerializeField] private Transform _shootPoint;
         [SerializeField] private ObjectPool.ObjectPool _objectPool;
         [SerializeField] private float _attackInterval = 2f;
-        // [SerializeField] private float _waitToHideTime = 3f;
-        // [SerializeField] private float _disanceToHide = 20f;
         [SerializeField] private float _deactivationRange = 10f;
+        [SerializeField] private EnemyHealth _health;
         private Transform _player;
         private Transform _bulletContainer;
         private WaitForSeconds _attackTimer;
         private float _direction = 1;
         private bool _isPatrolling = true;
-        // private WaitForSeconds _waitToHideTimer;
 
         private void Start()
         {
             _attackTimer = new WaitForSeconds(_attackInterval);
-            // _waitToHideTimer = new WaitForSeconds(_waitToHideTime);
-            
         }
 
         private void OnEnable()
         {
             StartCoroutine(Attack());
             _isPatrolling = true;
-            
-            // StartCoroutine(CheckDistanceToHide());
-
         }
 
         private void FixedUpdate()
@@ -73,6 +67,8 @@ namespace Enemy
         {
             while (true)
             {
+                if (_health.IsDead) yield return null;
+                
                 if (!CheckDistanceToPlayer(_attackRange))
                 {
                     _isPatrolling = true;
@@ -90,6 +86,7 @@ namespace Enemy
                 projectile.transform.SetParent(_bulletContainer);
                 projectile.Direction = _direction;
                 _animator.SetTrigger("Attack");
+                _audioSource.Play();
                 yield return _attackTimer;
             }
         }

@@ -8,6 +8,7 @@ namespace Interactables
 {
     public class Gate : MonoBehaviour
     {
+        [SerializeField] private AudioSource _audioSource;
         [SerializeField] private Collider2D _collider;
         [SerializeField] private Animator _animatorUpper;
         [SerializeField] private Animator _animatorLower;
@@ -33,6 +34,7 @@ namespace Interactables
                 if (_playerData.Keys > 0)
                 {
                     _playerData.UseKey();
+                    _audioSource.Play();
                     _animatorUpper.SetBool("Opened", true);
                     _animatorLower.SetBool("Opened", true);
                     StartCoroutine(DisableCollider());

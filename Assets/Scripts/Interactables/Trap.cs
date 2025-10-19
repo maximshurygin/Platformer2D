@@ -8,6 +8,7 @@ namespace Interactables
 {
     public class Trap : MonoBehaviour
     {
+        [SerializeField] private AudioSource _audioSource;
         [SerializeField] private Animator _animator;
         [SerializeField] private UpgradeCard _requiredUpgrade;
         [SerializeField] private float _normalDamage = 100f;
@@ -48,6 +49,11 @@ namespace Interactables
         public void ToggleCollider()
         {
             _collider.enabled = !_collider.enabled;
+        }
+
+        public void PlayAudio()
+        {
+            _audioSource?.Play();
         }
 
         private bool CheckIfPlayerHasProtection()
