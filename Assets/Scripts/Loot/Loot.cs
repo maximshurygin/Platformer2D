@@ -28,7 +28,7 @@ namespace Loot
 
         protected virtual void PickUp()
         {
-            AudioSource.PlayClipAtPoint(_audioSource.clip, transform.position);
+            AudioSource.PlayClipAtPoint(_audioSource.clip, transform.position,1f);
             gameObject.SetActive(false);
         }
     }

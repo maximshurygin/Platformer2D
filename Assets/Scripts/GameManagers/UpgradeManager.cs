@@ -1,12 +1,11 @@
-using System.Collections.Generic;
 using UnityEngine;
-using Upgrades;
 using Zenject;
 
 namespace GameManagers
 {
     public class UpgradeManager : MonoBehaviour
     {
+        [SerializeField] private AudioSource _audioSource;
         [SerializeField] private GameObject _upgradeWindow;
         private PlayerController _playerController;
 
@@ -31,10 +30,12 @@ namespace GameManagers
             if (_upgradeWindow.activeInHierarchy)
             {
                 _upgradeWindow.SetActive(false);
+                _audioSource.Play();
             }
             else
             {
                 _upgradeWindow.SetActive(true);
+                _audioSource.Play();
             }
         }
     }

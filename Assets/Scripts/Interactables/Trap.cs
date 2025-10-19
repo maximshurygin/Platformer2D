@@ -53,7 +53,7 @@ namespace Interactables
 
         public void PlayAudio()
         {
-            _audioSource?.Play();
+            _audioSource.Play();
         }
 
         private bool CheckIfPlayerHasProtection()

@@ -9,7 +9,6 @@ namespace Upgrades
 {
     public class UpgradeWindow : MonoBehaviour
     {
-        [SerializeField] private AudioSource _audioSource;
         [SerializeField] private GameObject _upgradeCardWindow; 
         [SerializeField] private TextMeshProUGUI _titleText; 
         [SerializeField] private TextMeshProUGUI _cardName; 
@@ -33,7 +32,6 @@ namespace Upgrades
             _playerData.NearComputer.OnOutOfRange += CloseUpgradeWindow; 
             _upgradeButton.onClick.AddListener(Upgrade); 
             _upgradeCard = _playerData.NearComputer.AvailableUpgradeCard;
-            _audioSource.Play();
             
             if (_upgradeCard != null)
             {
