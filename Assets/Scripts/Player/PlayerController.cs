@@ -45,7 +45,11 @@ public class PlayerController : MonoBehaviour
         _hintManager = hintManager;
         _pauseManager = pauseManager;
     }
-    
+
+    private void OnEnable()
+    {
+        IsAttacking = false;
+    }
     
     private void FixedUpdate()
     {
