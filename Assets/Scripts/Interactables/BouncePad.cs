@@ -14,7 +14,7 @@ namespace Interactables
                 _animator.SetTrigger("Activated");
                 _audioSource.Play();
                 other.TryGetComponent(out Rigidbody2D rigidbody);
-                rigidbody.velocity = Vector2.zero;
+                rigidbody.velocity = new Vector2(rigidbody.velocity.x, 0f);
                 rigidbody?.AddForce(Vector2.up * _bounceForce, ForceMode2D.Impulse);
             }
         }

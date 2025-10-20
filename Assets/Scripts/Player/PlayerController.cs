@@ -17,20 +17,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private float _groundCheckRadius = 0.15f;
     [SerializeField] private LayerMask _groundLayer;
+    [SerializeField] private LayerMask _bouncePadLayer;
     [SerializeField] private PlayerWeapon _playerWeapon;
     [SerializeField] private float _jumpForce = 10f;
-    [SerializeField] private float _maxJumpForce = 20f;
-    [SerializeField] private float _jumpChargeTime = 0.4f;
     
     private bool _isHolding;
     private float _jumpHoldTime;
     private Vector2 _movement;
     private bool _isGrounded;
-    private string[] attacks = { "Attack1", "Attack2" };
+    private bool _isOnBouncePad;
+    private string[] _attacks = { "Attack1", "Attack2" };
     private PlayerData _playerData;
     private HintManager _hintManager;
     private PauseManager _pauseManager;
     private bool _wasGrounded;
+    private bool _doubleJumpPerformed;
     
 
     public event Action OnInteract;
@@ -55,7 +56,6 @@ public class PlayerController : MonoBehaviour
     {
         HandleMovement();
         CheckGroundedState();
-        HandleJumpCharge();
     }
 
     private void HandleMovement()
@@ -76,14 +76,14 @@ public class PlayerController : MonoBehaviour
         _wasGrounded = _isGrounded;
 
         _isGrounded = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
+        _isOnBouncePad = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _bouncePadLayer);
         _animator.SetBool("IsGrounded", _isGrounded);
         _animator.SetFloat("VSpeed", _rb.velocity.y);
         
         if (_isGrounded && !_wasGrounded)
         {
             _animator.ResetTrigger("Jump");
-            _jumpHoldTime = 0f;
-            _isHolding = false;
+            _doubleJumpPerformed = false;
         }
     }
 
@@ -105,42 +105,30 @@ public class PlayerController : MonoBehaviour
     }
     
 
-    private void HandleJumpCharge()
-    {
-        if (_isHolding)
-        {
-            _jumpHoldTime += Time.deltaTime;
-        }
-    }
-    
-
     public void Jump(InputAction.CallbackContext ctx)
     {
-        if (ctx.started && _isGrounded && !IsHurt)
+        if (_isOnBouncePad) return;
+        
+        if (ctx.started && !IsHurt && _isGrounded)
         {
             _animator.SetTrigger("Jump");
             _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-            _isHolding = true;
-            _jumpHoldTime = 0f;
         }
-        else if (ctx.canceled && _isHolding && !_isGrounded && _jumpHoldTime >= _jumpChargeTime)
+        else if (ctx.started && !IsHurt && !_isGrounded && !_doubleJumpPerformed)
         {
-            float appliedJumpForce = _maxJumpForce - _jumpForce;
-            _rb.velocity = Vector2.zero;
-            _rb.AddForce(Vector2.up * appliedJumpForce, ForceMode2D.Impulse);
-            _isHolding = false;
-        }
-        else if (ctx.canceled && _isHolding)
-        {
-            _isHolding = false;
+            _animator.SetTrigger("Jump");
+            _rb.velocity = new Vector2(_rb.velocity.x, 0f);
+            _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+            _doubleJumpPerformed = true;
         }
     }
+    
 
     public void Attack(InputAction.CallbackContext ctx)
     {
         if (ctx.performed && !IsAttacking && !IsHurt && _isGrounded)
         {
-            _animator.SetTrigger(attacks[Random.Range(0, attacks.Length)]);
+            _animator.SetTrigger(_attacks[Random.Range(0, _attacks.Length)]);
             IsAttacking = true;
         }
     }
@@ -172,4 +160,12 @@ public class PlayerController : MonoBehaviour
     {
         IsHurt = false;
     }
+    
+    public void ForceStop()
+    {
+        _rb.velocity = Vector2.zero;
+        _animator.SetFloat("Speed", 0f);
+        IsAttacking = false;
+    }
+
 }

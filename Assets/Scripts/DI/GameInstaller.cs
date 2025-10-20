@@ -3,6 +3,7 @@ using Player;
 using Scenes;
 using Spawners;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Upgrades;
 using Zenject;
 
@@ -17,6 +18,7 @@ namespace DI
         [SerializeField] private PlayerUpgrade _playerUpgrade;
         [SerializeField] private UpgradeWindow _upgradeWindow;
         [SerializeField] private PauseManager _pauseManager;
+        [SerializeField] private PlayerInput _playerInput;
         
         public override void InstallBindings()
         {
@@ -27,8 +29,8 @@ namespace DI
             Container.Bind<KeySpawner>().FromInstance(_keySpawner).AsSingle().NonLazy();
             Container.Bind<PlayerUpgrade>().FromInstance(_playerUpgrade).AsSingle().NonLazy();
             Container.Bind<UpgradeWindow>().FromInstance(_upgradeWindow).AsSingle().NonLazy();
-            Container.Bind<PauseManager>().FromInstance(_pauseManager).AsSingle();
-
+            Container.Bind<PauseManager>().FromInstance(_pauseManager).AsSingle().NonLazy();
+            Container.Bind<PlayerInput>().FromInstance(_playerInput).AsSingle().NonLazy();
         }
     }
 }
