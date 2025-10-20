@@ -100,6 +100,17 @@
                 {
                     "name": "",
                     "id": "87b2a5e3-18ce-4156-a68b-05a2f5def971",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "928b379b-0d85-4330-b4de-eebbc94f23d4",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
