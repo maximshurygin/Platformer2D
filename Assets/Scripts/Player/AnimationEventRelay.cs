@@ -13,6 +13,7 @@ public class AnimationEventRelay : MonoBehaviour
     {
         _playerWeapon?.EnableCollider();
     }
+    
     private void AttackEnd()
     {
         _playerController?.OnAttackEnd();

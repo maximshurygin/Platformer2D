@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using GameManagers;
 using Player;
 using UnityEngine;
@@ -33,6 +34,8 @@ public class PlayerController : MonoBehaviour
     private bool _wasGrounded;
     private bool _doubleJumpPerformed;
     private bool _hasJumped;
+
+    
     
 
     public event Action OnInteract;
@@ -86,6 +89,7 @@ public class PlayerController : MonoBehaviour
             _animator.ResetTrigger("Jump");
             _doubleJumpPerformed = false;
             _hasJumped = false;
+            IsAttacking = false;
         }
     }
 
@@ -127,26 +131,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    
-
-    // public void Jump(InputAction.CallbackContext ctx)
-    // {
-    //     if (_isOnBouncePad) return;
-    //     
-    //     if (ctx.started && !IsHurt && _isGrounded)
-    //     {
-    //         _animator.SetTrigger("Jump");
-    //         _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-    //     }
-    //     else if (ctx.started && !IsHurt && !_isGrounded && !_doubleJumpPerformed)
-    //     {
-    //         _animator.SetTrigger("Jump");
-    //         _rb.velocity = new Vector2(_rb.velocity.x, 0f);
-    //         _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-    //         _doubleJumpPerformed = true;
-    //     }
-    // }
-    
 
     public void Attack(InputAction.CallbackContext ctx)
     {
@@ -191,5 +175,4 @@ public class PlayerController : MonoBehaviour
         _animator.SetFloat("Speed", 0f);
         IsAttacking = false;
     }
-
 }
