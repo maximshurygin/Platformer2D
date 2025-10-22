@@ -1,1 +1,1 @@
-Use this link to play the game: https://maximys2142.itch.io/robo-escape
+Use this link to play the game: https://shurmax.itch.io/robo-escape
